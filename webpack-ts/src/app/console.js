@@ -1,0 +1,1 @@
+console.log("This is being logged from console.js");

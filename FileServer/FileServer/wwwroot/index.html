@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <p>Upload your file: </p>
+    <input type="file" name="file" value="" onchange="upload(event.target.files[0])" />
+
+    <script type="text/javascript">
+        function upload(file) {
+            var reader = new FileReader();
+            reader.onloadend = function (e) {
+                var buffer = e.target.result;
+                ajax(buffer, file);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function ajax(buffer, file) {
+            let oReq = new XMLHttpRequest();
+            oReq.open('PUT', '/api/files/upload' + file.name, true);
+            //oReq.setRequestHeader('Content-Type', 'text/plain');
+            oReq.onload = function(e) {
+                if (oReq.status >= 200 && oReq.status <= 299) {
+                    console.log("upload ok");
+                } else {
+                    console.log("upload not ok");
+                }
+            };
+            oReq.send(buffer);
+        }
+    </script>
+</body>
+</html>
